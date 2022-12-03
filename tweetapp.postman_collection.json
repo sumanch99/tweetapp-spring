@@ -1,0 +1,264 @@
+{
+	"variables": [],
+	"info": {
+		"name": "tweetapp",
+		"_postman_id": "4ac6bd48-ca61-e43c-c3f5-7bdb70543ac4",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\":\"sch\",\r\n    \"email\":\"sch.suman@gmail.com\",\r\n    \"firstName\":\"Suman\",\r\n    \"lastName\":\"Chakraborty\",\r\n    \"password\":\"1234\",\r\n    \"contactNumber\":\"1234569874\",\r\n    \"dob\":\"1999-11-23\",\r\n    \"gender\":\"M\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Register 1",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/register",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"username\": \"Sinjon\",\r\n    \"email\":\"ga@gmial.com\",\r\n    \"firstName\":\"Subhajit\",\r\n    \"lastName\":\"Laha\",\r\n    \"password\":\"1234\",\r\n    \"contactNumber\":\"8017595454\",\r\n    \"dob\": \"1998-04-09\",\r\n    \"gender\": \"F\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"username\": \"sch\",\n   \"password\":\"1234\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Forgot Password",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/sch/forgot",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzY2giLCJleHAiOjE2NzAwOTg4MjMsImlhdCI6MTY3MDA2MjgyM30.tyhzMuMNaLKjBndfPr95xpWmKW4278OXGCoxPuAO8TQ",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"oldPassword\":\"1234\",\r\n    \"newPassword\":\"12345\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post new Tweet",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/{{userId}}/add",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYUBnbWlhbC5jb20iLCJleHAiOjE2Njk5NDU0NjIsImlhdCI6MTY2OTkwOTQ2Mn0.7HdiVlzXLRYevflBYtPazw4fDTOODWDCtavvPK3s938",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tweets\":\"Hello guys1!\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All tweets",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/all",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzY2giLCJleHAiOjE2NzAwOTc2MDcsImlhdCI6MTY3MDA2MTYwN30.87u-XgwgnPGVlT3GXB32PqJVN1AeWBVNvy_kQmtpxOA",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All tweets of user",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/{{userId}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYUBnbWlhbC5jb20iLCJleHAiOjE2NzAwNDE3MDUsImlhdCI6MTY3MDAwNTcwNX0.RABR8mqjgQKHD4zEJRCTSeJt--QIFiyN4vXLhOLAgUw",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Tweet",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/{{userId}}/update/2",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYUBnbWlhbC5jb20iLCJleHAiOjE2NzAwNDE3MDUsImlhdCI6MTY3MDAwNTcwNX0.RABR8mqjgQKHD4zEJRCTSeJt--QIFiyN4vXLhOLAgUw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tweets\":\"Hello guys this is update operation!\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Tweet",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/{{userId}}/delete/{{tweetId}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYUBnbWlhbC5jb20iLCJleHAiOjE2NzAwNDE3MDUsImlhdCI6MTY3MDAwNTcwNX0.RABR8mqjgQKHD4zEJRCTSeJt--QIFiyN4vXLhOLAgUw",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tweets\":\"Hello guys this is update operation!\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Users",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/users/all",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzY2giLCJleHAiOjE2NzAwOTc2MDcsImlhdCI6MTY3MDA2MTYwN30.87u-XgwgnPGVlT3GXB32PqJVN1AeWBVNvy_kQmtpxOA",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "RegexSearch username",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/user/search/s",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzY2giLCJleHAiOjE2NzAwOTkxOTQsImlhdCI6MTY3MDA2MzE5NH0.APReayTCcrU6MOsZbkUkXI0Eo9U02Ge8mwVOSnYkTBQ",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Like a tweet",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/sublah8017/like/3",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYUBnbWlhbC5jb20iLCJleHAiOjE2NzAwNDIwMzksImlhdCI6MTY3MDAwNjAzOX0.mnejfLqsYlTJplMoeL9N-HPJ8idv9XQMNT0JT92IF0A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Comment a tweet",
+			"request": {
+				"url": "localhost:8080/api/v1.0/tweets/sublah8017/reply/3",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYUBnbWlhbC5jb20iLCJleHAiOjE2NzAwNDIwMzksImlhdCI6MTY3MDAwNjAzOX0.mnejfLqsYlTJplMoeL9N-HPJ8idv9XQMNT0JT92IF0A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"comment\":\"comment1\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
