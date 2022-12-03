@@ -1,6 +1,5 @@
 package com.tweetapp.securityConfig;
 
-import com.tweetapp.filters.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.tweetapp.filters.JwtRequestFilter;
 
 @EnableWebSecurity
 public class Config extends WebSecurityConfigurerAdapter {
@@ -38,6 +39,7 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1.0/tweets/register").permitAll()
                 .antMatchers("/api/v1.0/tweets/login").permitAll()
+                .antMatchers("/api/v1.0/tweets/**/forgot").permitAll()
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/api/v1.0/**").authenticated()
@@ -57,5 +59,5 @@ public class Config extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
 }

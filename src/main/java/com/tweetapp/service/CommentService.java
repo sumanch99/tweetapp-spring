@@ -2,7 +2,7 @@ package com.tweetapp.service;
 
 import com.tweetapp.exception.TweetAppException;
 import com.tweetapp.model.Comment;
-import com.tweetapp.model.LikeTable;
+import com.tweetapp.model.LikeTweet;
 import com.tweetapp.model.Tweet;
 import com.tweetapp.model.User;
 import com.tweetapp.model.utilityModel.TweetWithLikeComment;
@@ -43,8 +43,8 @@ public class CommentService {
         //getTweet
         Tweet tweet = tweetService.getTweetById(tweetId);
         //getLikes
-        List<LikeTable> likeList = likeService.getByTweetId(tweetId);
-        List<String> userList = likeList.stream().map(LikeTable::getUsername).collect(Collectors.toList());
+        List<LikeTweet> likeList = likeService.getByTweetId(tweetId);
+        List<String> userList = likeList.stream().map(LikeTweet::getUsername).collect(Collectors.toList());
         List<User> usersList1 = userService.getAllUsersInList(userList);
         //getComments
         List<Comment> commentList = getByTweetId(tweetId);

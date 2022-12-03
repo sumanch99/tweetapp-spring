@@ -1,13 +1,12 @@
 package com.tweetapp.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -60,8 +59,12 @@ public class UserService implements UserDetailsService {
         
     }
 
-    public LoginModel login(LoginModel user) throws TweetAppException {
-    	Optional<User> users = user.getUsername()!=null?usersRepository.findByUsername(user.getUsername()):usersRepository.findByEmail(user.getEmail());
+    public Map<String, String> login(LoginModel user) throws TweetAppException {
+    	
+    	Optional<User> users = usersRepository.findByUsername(user.getUserId());
+    	if(users.isEmpty()) {
+    		users = usersRepository.findByEmail(user.getUserId());
+        }
         if(users.isEmpty()) {
         	throw new TweetAppException("Email address or Username not present");
         }
@@ -70,11 +73,12 @@ public class UserService implements UserDetailsService {
         log.info(u.toString());
         boolean match = passwordEncoder.matches(user.getPassword(), u.getPassword());
         if(match) {
-        	UserDetails userDetails = loadUserByUsername(user.getUsername()!=null?user.getUsername():user.getEmail());
+        	UserDetails userDetails = loadUserByUsername(u.getUsername());
         	String jwt = jwtUtil.generateToken(userDetails);
-        	user.setJwt(jwt);
-        	user.setUsername(userDetails.getUsername());
-        	return user;
+        	Map<String, String> response = new HashMap<>();
+        	response.put("username", userDetails.getUsername());
+        	response.put("jwt", jwt);
+        	return response;
         }else {
         	throw new TweetAppException("Incorrect Credentials");
         }

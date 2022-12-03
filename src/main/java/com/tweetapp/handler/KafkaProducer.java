@@ -1,4 +1,4 @@
-package com.tweetapp.kafka;
+package com.tweetapp.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;

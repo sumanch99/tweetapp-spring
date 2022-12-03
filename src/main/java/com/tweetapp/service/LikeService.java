@@ -1,21 +1,18 @@
 package com.tweetapp.service;
 
-import com.tweetapp.exception.TweetAppException;
-import com.tweetapp.model.Comment;
-import com.tweetapp.model.LikeTable;
-import com.tweetapp.model.Tweet;
-import com.tweetapp.model.User;
-import com.tweetapp.model.utilityModel.ApiResponse;
-import com.tweetapp.model.utilityModel.TweetWithLikeComment;
-import com.tweetapp.repository.LikeRepository;
-import com.tweetapp.repository.TweetRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.tweetapp.exception.TweetAppException;
+import com.tweetapp.model.Comment;
+import com.tweetapp.model.LikeTweet;
+import com.tweetapp.model.Tweet;
+import com.tweetapp.model.User;
+import com.tweetapp.model.utilityModel.TweetWithLikeComment;
+import com.tweetapp.repository.LikeRepository;
 
 @Service
 public class LikeService {
@@ -33,15 +30,15 @@ public class LikeService {
 
     public TweetWithLikeComment likeATweet(String username, Long tweetId) throws TweetAppException {
         if(userService.usernameIsEmpty(username))
-            throw new TweetAppException("Username doesn't exists");
+            throw new TweetAppException("Invalid Username");
         if(tweetService.tweetIsEmpty(tweetId))
-            throw new TweetAppException("Tweet id doesn't exists");
-        likeRepository.save(LikeTable.builder()
+            throw new TweetAppException("Tweet not found!");
+        likeRepository.save(LikeTweet.builder()
                         .tweetId(tweetId).username(username)
                 .build());
 
-        List<LikeTable> likeList = getByTweetId(tweetId);
-        List<String> userList = likeList.stream().map(LikeTable::getUsername).collect(Collectors.toList());
+        List<LikeTweet> likeList = getByTweetId(tweetId);
+        List<String> userList = likeList.stream().map(LikeTweet::getUsername).collect(Collectors.toList());
         List<User> usersList1 = userService.getAllUsersInList(userList);
 
         //find bytweetId in comment
@@ -61,7 +58,7 @@ public class LikeService {
                 .build();
     }
 
-    public List<LikeTable> getByTweetId(Long tweetId) {
+    public List<LikeTweet> getByTweetId(Long tweetId) {
         return likeRepository.findByTweetId(tweetId);
     }
 }

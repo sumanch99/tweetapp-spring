@@ -25,16 +25,16 @@ public class TweetService {
 
     public Tweet createATweet(Tweet tweet, String userName) throws TweetAppException {
         if(userService.usernameIsEmpty(userName))
-            throw new TweetAppException("Username is not present");
+            throw new TweetAppException("Invalid username");
         tweet.setUsername(userName);
         tweet.setDate(new Date());
         return tweetRepository.saveAndFlush(tweet);
     }
 
     public List<Tweet> getAllTweetsForAUser(String username) throws TweetAppException {
-        if(userService.usernameIsEmpty(username))
-            throw new TweetAppException("Username is not present");
-
+        if(userService.usernameIsEmpty(username)) {
+        	throw new TweetAppException("Invalid username");
+        }
         return tweetRepository.findByUsername(username);
     }
 
@@ -43,21 +43,22 @@ public class TweetService {
     }
 
     public Tweet updateATweet(String username, Long tweetId, Tweet tweet) throws TweetAppException {
-        if(tweetIsEmpty(tweetId))
-            throw new TweetAppException("Tweet Id is not present. Please enter a valid tweet Id");
-        if(userService.usernameIsEmpty(username))
-            throw new TweetAppException("Username is not not valid.");
+        if(tweetIsEmpty(tweetId)) {
+        	throw new TweetAppException("Tweet Not present");
+        }
+        if(userService.usernameIsEmpty(username)) {
+        	throw new TweetAppException("Invalid Username");
+        }
         Tweet tweetInDb  = tweetRepository.findById(tweetId).get();
         tweetInDb.setTweet(tweet.getTweet());
         return tweetRepository.saveAndFlush(tweetInDb);
     }
 
     public void deleteTweet(String username, Long tweetId) throws TweetAppException {
-        log.info("Inside DeleteTweet "+ username+" "+tweetId);
         if(tweetIsEmpty(tweetId))
-            throw new TweetAppException("Tweet Id is not present. Please enter a valid tweet Id");
+            throw new TweetAppException("Tweet Not present!");
         if(userService.usernameIsEmpty(username))
-            throw new TweetAppException("Username is not not valid.");
+            throw new TweetAppException("Invalid Username");
         tweetRepository.deleteById(tweetId);
     }
 
