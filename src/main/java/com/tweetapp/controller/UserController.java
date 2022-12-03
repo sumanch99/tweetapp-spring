@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tweetapp.exception.TweetAppException;
+import com.tweetapp.kafka.KafkaProducer;
 import com.tweetapp.model.User;
 import com.tweetapp.model.utilityModel.ApiResponse;
 import com.tweetapp.model.utilityModel.ChangePassword;
@@ -27,6 +28,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    KafkaProducer kafkaProducer;
+    
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@RequestBody User users) {
     	log.info("Entered registerUser");
@@ -99,6 +103,7 @@ public class UserController {
     public ResponseEntity<ApiResponse> changePassword(@PathVariable String username, @RequestBody ChangePassword cp) {
     	log.info("Entered changePassword");
     	try {
+    		kafkaProducer.sendMessageToTopic(username); //start kafka
     		User user = userService.updatePassword(cp,username);
     		log.info("Password reset successful");
             return ResponseEntity.ok().body(ApiResponse.builder()
