@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService {
         return usersRepository.saveAndFlush(users);
     }
 
-    public boolean usernameIsEmpty(String username){
+    public boolean isUsernameValid(String username){
         return usersRepository.findByUsername(username).isEmpty();
     }
 
@@ -112,7 +112,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserByEmail(String email) throws TweetAppException {
-        if(usernameIsEmpty(email))
+        if(isUsernameValid(email))
             throw new TweetAppException("Username Invalid");
         return usersRepository.findByEmail(email).get();
     }

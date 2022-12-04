@@ -24,7 +24,7 @@ public class TweetService {
     }
 
     public Tweet createATweet(Tweet tweet, String userName) throws TweetAppException {
-        if(userService.usernameIsEmpty(userName))
+        if(userService.isUsernameValid(userName))
             throw new TweetAppException("Invalid username");
         tweet.setUsername(userName);
         tweet.setDate(new Date());
@@ -32,21 +32,21 @@ public class TweetService {
     }
 
     public List<Tweet> getAllTweetsForAUser(String username) throws TweetAppException {
-        if(userService.usernameIsEmpty(username)) {
+        if(userService.isUsernameValid(username)) {
         	throw new TweetAppException("Invalid username");
         }
         return tweetRepository.findByUsername(username);
     }
 
-    public boolean tweetIsEmpty(Long tweetId){
+    public boolean isTweetIdValid(Long tweetId){
         return tweetRepository.findById(tweetId).isEmpty();
     }
 
     public Tweet updateATweet(String username, Long tweetId, Tweet tweet) throws TweetAppException {
-        if(tweetIsEmpty(tweetId)) {
+        if(isTweetIdValid(tweetId)) {
         	throw new TweetAppException("Tweet Not present");
         }
-        if(userService.usernameIsEmpty(username)) {
+        if(userService.isUsernameValid(username)) {
         	throw new TweetAppException("Invalid Username");
         }
         Tweet tweetInDb  = tweetRepository.findById(tweetId).get();
@@ -55,15 +55,15 @@ public class TweetService {
     }
 
     public void deleteTweet(String username, Long tweetId) throws TweetAppException {
-        if(tweetIsEmpty(tweetId))
+        if(isTweetIdValid(tweetId))
             throw new TweetAppException("Tweet Not present!");
-        if(userService.usernameIsEmpty(username))
+        if(userService.isUsernameValid(username))
             throw new TweetAppException("Invalid Username");
         tweetRepository.deleteById(tweetId);
     }
 
     public Tweet getTweetById(Long tweetId) throws TweetAppException {
-        if(tweetIsEmpty(tweetId))
+        if(isTweetIdValid(tweetId))
             throw new TweetAppException("Invalid TweetId");
         return tweetRepository.findById(tweetId).get();
     }

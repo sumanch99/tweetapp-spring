@@ -29,23 +29,20 @@ public class LikeService {
     private CommentService commentService;
 
     public TweetWithLikeComment likeATweet(String username, Long tweetId) throws TweetAppException {
-        if(userService.usernameIsEmpty(username))
-            throw new TweetAppException("Invalid Username");
-        if(tweetService.tweetIsEmpty(tweetId))
-            throw new TweetAppException("Tweet not found!");
+        if(userService.isUsernameValid(username)) {
+        	throw new TweetAppException("Invalid Username");
+        }
+        if(tweetService.isTweetIdValid(tweetId)) {
+        	throw new TweetAppException("Tweet not found!");
+        }
         likeRepository.save(LikeTweet.builder()
                         .tweetId(tweetId).username(username)
                 .build());
 
-        List<LikeTweet> likeList = getByTweetId(tweetId);
-        List<String> userList = likeList.stream().map(LikeTweet::getUsername).collect(Collectors.toList());
-        List<User> usersList1 = userService.getAllUsersInList(userList);
+        List<LikeTweet> likeList = getLikedTweetByTweetId(tweetId);
+        List<User> usersList = userService.getAllUsersInList(likeList.stream().map(LikeTweet::getUsername).collect(Collectors.toList()));
 
-        //find bytweetId in comment
-        //add all comment to the list
-        // assign to the tweetWithLikeComment variable
-
-        List<Comment> commentsList = commentService.getByTweetId(tweetId);
+        List<Comment> commentsList = commentService.getCommentsByTweetId(tweetId);
 
         Tweet tweet = tweetService.getTweetById(tweetId);
         return TweetWithLikeComment.builder()
@@ -53,12 +50,12 @@ public class LikeService {
                 .userName(tweet.getUsername())
                 .tweets(tweet.getTweet())
                 .date(tweet.getDate())
-                .likedUsers(usersList1)
+                .likedUsers(usersList)
                 .commentsList(commentsList)
                 .build();
     }
 
-    public List<LikeTweet> getByTweetId(Long tweetId) {
+    public List<LikeTweet> getLikedTweetByTweetId(Long tweetId) {
         return likeRepository.findByTweetId(tweetId);
     }
 }
