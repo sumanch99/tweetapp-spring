@@ -19,6 +19,6 @@ public class CommentController {
 	public ResponseEntity<ApiResponse> commentATweet(@RequestBody Comment comments, @PathVariable String username,
 			@PathVariable Long tweetId) throws TweetAppException {
 		TweetWithLikeComment tweet = commentService.commentATweet(comments, username, tweetId);
-		return ResponseEntity.ok(ApiResponse.builder().status(200).message("Liked the tweet").data(tweet).build());
+		return ResponseEntity.ok(ApiResponse.builder().status(200).message("Commented on the tweet").data(tweet).build());
 	}
 }
