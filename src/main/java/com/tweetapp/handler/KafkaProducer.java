@@ -13,5 +13,10 @@ public class KafkaProducer {
 	public void sendMessageToTopic(String message) {
 		kafkaTemplate.send("PasswordChangeTopic", message);
 	}
+	
+	/* 
+	.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+	 .\bin\windows\kafka-server-start.bat .\config\server.properties 
+	 */
 
 }
