@@ -35,7 +35,6 @@ public class Config extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
                 .and()
-                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1.0/tweets/register").permitAll()
                 .antMatchers("/api/v1.0/tweets/login").permitAll()
@@ -43,6 +42,9 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui.html/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/api/v1.0/**").authenticated()
+                .and()
+                .csrf().disable()
+                .headers().frameOptions().disable()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -1,0 +1,38 @@
+server:
+  port: 8080
+logging:
+  level:
+    org.springframework.web: DEBUG
+    enableLoggingRequestDetails: false
+spring:
+  application:
+    name: tweet-app
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: true
+    allowed:
+      resources: /h2-console/**
+    security:
+      basic:
+        enabled: true
+        authorize-mode: NONE
+  datasource:
+    url: jdbc:h2:mem:tweetapp
+    username: tweetapp
+    password: password
+    driver-class-name: org.h2.Driver
+    jpa:
+      hibernate:
+        ddl-auto: create
+      database-platform: org.hibernate.dialect.H2Dialect
+      show-sql: true
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tweetapp.exception.TweetAppException;
 import com.tweetapp.model.Tweet;
 import com.tweetapp.model.utilityModel.ApiResponse;
+import com.tweetapp.model.utilityModel.TweetWithLikeComment;
 import com.tweetapp.service.TweetService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class TweetController {
 
 	@GetMapping("/all")
 	public ResponseEntity<ApiResponse> getAllTweets() {
-		List<Tweet> tweetList = tweetService.getAllTweets();
+		List<TweetWithLikeComment> tweetList = tweetService.getAllTweets();
 		if (!tweetList.isEmpty())
 			return ResponseEntity.ok(
 					ApiResponse.builder().status(200).message("Tweets Fetched successfully").data(tweetList).build());
@@ -41,7 +42,7 @@ public class TweetController {
 
 	@GetMapping("/{username}")
 	public ResponseEntity<ApiResponse> getAllTweetsForAUser(@PathVariable String username) throws TweetAppException {
-		List<Tweet> tweets = tweetService.getAllTweetsForAUser(username);
+		List<TweetWithLikeComment> tweets = tweetService.getAllTweetsForAUser(username);
 		if (tweets.isEmpty()) {
 			return ResponseEntity.ok(ApiResponse.builder().status(200).message("No tweets found for user " + username)
 					.data(tweets).build());

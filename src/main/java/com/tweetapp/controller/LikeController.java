@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tweetapp.exception.TweetAppException;
 import com.tweetapp.model.utilityModel.ApiResponse;
+import com.tweetapp.model.utilityModel.TweetWithLikeComment;
 import com.tweetapp.service.LikeService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +23,11 @@ public class LikeController {
 
 	@PutMapping("/{username}/like/{tweetId}")
 	public ResponseEntity<ApiResponse> likeATweet(@PathVariable String username, @PathVariable Long tweetId) throws TweetAppException {
+		
+		TweetWithLikeComment tweet = likeService.likeATweet(username, tweetId);
+		
 		return ResponseEntity.ok(ApiResponse.builder().status(200).message("Liked the tweet")
-				.data(likeService.likeATweet(username, tweetId)).build());
+				.data(tweet).build());
 
 	}
 }
