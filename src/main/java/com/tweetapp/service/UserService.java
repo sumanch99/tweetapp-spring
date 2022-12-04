@@ -41,12 +41,15 @@ public class UserService implements UserDetailsService {
     public User createUser(User users) throws TweetAppException {
     	log.info("Entered createUser");
         if(users == null){
-            throw new TweetAppException("User passed is null");
+        	log.error("User passed is null");
+        	throw new TweetAppException("User passed is null");
         }
         if(usersRepository.findByEmail(users.getEmail()).isPresent()){
+        	log.error("Email already exists");
             throw new TweetAppException("Email already exists");
         }
         if(usersRepository.findByUsername(users.getUsername()).isPresent()){
+        	log.error("Username already exists. Try with a different username!");
             throw new TweetAppException("Username already exists. Try with a different username!");
         }
         users.setPassword(passwordEncoder.encode(users.getPassword()));
@@ -54,13 +57,14 @@ public class UserService implements UserDetailsService {
         try {
         	return usersRepository.saveAndFlush(users);
         }catch(DataIntegrityViolationException e) {
+        	log.error("Insufficient input details provided",e);
         	throw new TweetAppException("Insufficient input details provided");
         }
         
     }
 
     public Map<String, String> login(LoginModel user) throws TweetAppException {
-    	
+    	log.info("Entered login");
     	Optional<User> users = usersRepository.findByUsername(user.getUserId());
     	if(users.isEmpty()) {
     		users = usersRepository.findByEmail(user.getUserId());
@@ -78,8 +82,10 @@ public class UserService implements UserDetailsService {
         	Map<String, String> response = new HashMap<>();
         	response.put("username", userDetails.getUsername());
         	response.put("jwt", jwt);
+        	log.info("Login Successful, user"+response.get("username")+" ,jwt:"+response.get("jwt"));
         	return response;
         }else {
+        	log.error("Incorrect Credentials");
         	throw new TweetAppException("Incorrect Credentials");
         }
         
@@ -87,8 +93,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User updatePassword(ChangePassword cp,String username) throws TweetAppException {
+    	log.info("Entered updatePassword");
     	Optional<User> user = usersRepository.findByUsername(username);
         if(user.isEmpty()) {
+        	log.error("Username not found");
         	throw new TweetAppException("Username not found");
         }
         User users = user.get();
@@ -96,6 +104,7 @@ public class UserService implements UserDetailsService {
             throw new TweetAppException("Old password doesnot match");
 
         users.setPassword(passwordEncoder.encode(cp.getNewPassword()));
+        log.info("Password Changed Successfully");
         return usersRepository.saveAndFlush(users);
     }
 
@@ -124,6 +133,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    	log.info("Enterted loadUserByUsername");
         Optional<User> user = usersRepository.findByEmail(userId);
 
         if(user.isEmpty()) {

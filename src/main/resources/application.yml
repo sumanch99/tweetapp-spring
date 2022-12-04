@@ -4,6 +4,8 @@ logging:
   level:
     org.springframework.web: DEBUG
     enableLoggingRequestDetails: false
+  file: 
+    name: ./logs/TweetApp.log
 spring:
   application:
     name: tweet-app

@@ -30,10 +30,13 @@ public class TweetController {
 
 	@GetMapping("/all")
 	public ResponseEntity<ApiResponse> getAllTweets() {
+		log.info("Entered getAllTweets");
 		List<TweetWithLikeComment> tweetList = tweetService.getAllTweets();
-		if (!tweetList.isEmpty())
+		if (!tweetList.isEmpty()) {
+			log.info("Tweets Fetched successfully");
 			return ResponseEntity.ok(
 					ApiResponse.builder().status(200).message("Tweets Fetched successfully").data(tweetList).build());
+		}
 		log.info("Tweets not fund");
 		return ResponseEntity.ok()
 				.body(ApiResponse.builder().status(200).message("No tweets available").data(tweetList).build());
@@ -42,11 +45,14 @@ public class TweetController {
 
 	@GetMapping("/{username}")
 	public ResponseEntity<ApiResponse> getAllTweetsForAUser(@PathVariable String username) throws TweetAppException {
+		log.info("Entered getAllTweetsForAUser");
 		List<TweetWithLikeComment> tweets = tweetService.getAllTweetsForAUser(username);
 		if (tweets.isEmpty()) {
+			log.info("No tweets found for user" + username);
 			return ResponseEntity.ok(ApiResponse.builder().status(200).message("No tweets found for user " + username)
 					.data(tweets).build());
 		}
+		log.info("Tweets Fetched successfully for user " + username);
 		return ResponseEntity.ok(ApiResponse.builder().status(200)
 				.message("Tweets Fetched successfully for user " + username).data(tweets).build());
 
@@ -55,7 +61,9 @@ public class TweetController {
 	@PostMapping("/{username}/add")
 	public ResponseEntity<ApiResponse> postTweetForAUser(@RequestBody Tweet tweet, @PathVariable String username)
 			throws TweetAppException {
+		log.info("Entered postTweetForAUser");
 		Tweet createdTweet = tweetService.createATweet(tweet, username);
+		log.info("Tweet created successfully for user " + username);
 		return ResponseEntity.ok(ApiResponse.builder().status(201)
 				.message("Tweet created successfully for user " + username).data(createdTweet).build());
 
@@ -64,7 +72,9 @@ public class TweetController {
 	@PutMapping("{username}/update/{tweetId}")
 	public ResponseEntity<ApiResponse> updateTweet(@RequestBody Tweet tweet, @PathVariable String username,
 			@PathVariable Long tweetId) throws TweetAppException {
+		log.info("Entered updateTweet");
 		Tweet tweetCreated = tweetService.updateATweet(username, tweetId, tweet);
+		log.info("Tweets Updated successfully for user " + username);
 		return ResponseEntity.ok(ApiResponse.builder().status(201)
 				.message("Tweets Updated successfully for user " + username).data(tweetCreated).build());
 
@@ -72,7 +82,9 @@ public class TweetController {
 
 	@DeleteMapping("{username}/delete/{tweetId}")
 	public ResponseEntity<ApiResponse> deleteTweet(@PathVariable String username, @PathVariable Long tweetId) throws TweetAppException {
+		log.info("Entered deleteTweet");
 		tweetService.deleteTweet(username, tweetId);
+		log.info("Tweet deleted successfully");
 		return ResponseEntity.ok(ApiResponse.builder().status(200).message("Tweet deleted successfully").build());
 
 	}

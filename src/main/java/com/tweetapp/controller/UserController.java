@@ -82,10 +82,13 @@ public class UserController {
 
 	@GetMapping("/users/all")
 	public ResponseEntity<ApiResponse> getAllUsers() {
+		log.info("Entered getAllUsers");
 		List<User> users = userService.getAllUsers();
-		if (!users.isEmpty())
+		if (!users.isEmpty()) {
+			log.info("Users Found");
 			return ResponseEntity.ok(ApiResponse.builder().status(200).message("Users Found").data(users).build());
-		log.info("Tweets not fund");
+		}
+		log.info("No Users Found");
 		return ResponseEntity.ok()
 				.body(ApiResponse.builder().status(200).message("No Users Found").data(users).build());
 	}

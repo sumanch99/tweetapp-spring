@@ -23,9 +23,9 @@ public class LikeController {
 
 	@PutMapping("/{username}/like/{tweetId}")
 	public ResponseEntity<ApiResponse> likeATweet(@PathVariable String username, @PathVariable Long tweetId) throws TweetAppException {
-		
+		log.info("Entered likeATweet");
 		TweetWithLikeComment tweet = likeService.likeATweet(username, tweetId);
-		
+		log.info("Liked the tweet");
 		return ResponseEntity.ok(ApiResponse.builder().status(200).message("Liked the tweet")
 				.data(tweet).build());
 
